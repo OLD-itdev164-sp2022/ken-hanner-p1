@@ -15,7 +15,7 @@ const Blog = () => {
               title
               id
               slug
-              publishedDate(formatString: "Do MMMM, YYYY")
+              publishedDate(formatString: "DD MMMM, YYYY")
               featuredImage {
                 file {
                   url
