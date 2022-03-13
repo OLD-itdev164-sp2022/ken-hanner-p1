@@ -5,7 +5,6 @@ import Layout from "../components/layout";
 import { GatsbyImage } from "gatsby-plugin-image";
 import SEO from "../components/seo";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 
 
 
@@ -15,10 +14,9 @@ export const query = graphql`
       title
       publishedDate(formatString: "DD MMMM, YYYY")
       featuredImage {
-        file {
-            url
-        }
-      }
+                gatsbyImageData(width:400)
+              }	
+      
       body {
         raw
         
@@ -41,19 +39,28 @@ const BlogPost = props => {
         {props.data.contentfulBlogPost.featuredImage && (
           <GatsbyImage
             className="featured"
-            image={props.data.contentfulBlogPost.featuredImage.file.url}
+            image={props.data.contentfulBlogPost.featuredImage.gatsbyImageData}
             alt={props.data.contentfulBlogPost.title}
           />
         )}
 
 
-        {documentToReactComponents(JSON.parse(props.data.contentfulBlogPost.body.raw))}
+        {documentToReactComponents(JSON.parse(props.data.contentfulBlogPost.body.raw, options))}
 
       </div>
     </Layout>
   )
 }
 
+const options = {
+  renderNode: {
+    "embedded-asset-block": node => {
+      const alt = node.data.target.fields.title["en-US"]
+      const url = node.data.target.fields.file["en-US"].url
+      return <img alt={alt} src={url} />
+    },
+  },
+}
 
 
 export default BlogPost

@@ -1,7 +1,7 @@
 import React from "react"
 import { useStaticQuery, graphql, Link } from "gatsby"
 
-import { GatsbyImage } from "gatsby-plugin-image";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
@@ -17,10 +17,8 @@ const Blog = () => {
               slug
               publishedDate(formatString: "DD MMMM, YYYY")
               featuredImage {
-                file {
-                  url
-                }
-              }
+                gatsbyImageData(width:200)
+              }	
               excerpt {
                 childMarkdownRemark {
                   excerpt(pruneLength: 150)
@@ -32,6 +30,9 @@ const Blog = () => {
       }
     `
   )
+  
+  
+
   return (
     <Layout>
       <SEO title="Blog" />
@@ -50,7 +51,7 @@ const Blog = () => {
               </div>
               {edge.node.featuredImage && (
                 <GatsbyImage
-                  image={edge.node.featuredImage.file.url}
+                  image={edge.node.featuredImage.gatsbyImageData}
                   className="featured"
                   alt={edge.node.title} />
               )}
