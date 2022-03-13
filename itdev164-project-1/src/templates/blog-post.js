@@ -1,10 +1,12 @@
 import React from "react"
 import { graphql, Link } from "gatsby"
 
-import Layout from "../components/layout"
+import Layout from "../components/layout";
 import { GatsbyImage } from "gatsby-plugin-image";
-import SEO from "../components/seo"
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+import SEO from "../components/seo";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { BLOCKS, MARKS } from '@contentful/rich-text-types';
+
 
 
 export const query = graphql`
@@ -17,11 +19,15 @@ export const query = graphql`
             url
         }
       }
+      body {
+        raw
+        
+      }
     }
   }
 `
 
-const BlogPost = props => {
+const BlogPost = props => {  
   return (
     <Layout>
       <SEO title={props.data.contentfulBlogPost.title} />
@@ -29,7 +35,7 @@ const BlogPost = props => {
       <div className="content">
         <h1>{props.data.contentfulBlogPost.title}</h1>
         <span className="meta">
-          Posted on {props.data.contentfulBlogPost.publishedDate}
+          Posted on {props.data.contentfulBlogPost.publishedDate} 
         </span>
 
         {props.data.contentfulBlogPost.featuredImage && (
@@ -40,10 +46,14 @@ const BlogPost = props => {
           />
         )}
 
-        {documentToReactComponents(props.data.contentfulBlogPost.body.json)}
+
+        {documentToReactComponents(JSON.parse(props.data.contentfulBlogPost.body.raw))}
+
       </div>
     </Layout>
   )
 }
+
+
 
 export default BlogPost
