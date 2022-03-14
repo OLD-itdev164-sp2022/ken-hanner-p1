@@ -15,6 +15,9 @@ const IndexPage = () => (
     <p>
       <Link to="/blog/">Visit the Blog Page</Link>
     </p>
+    <p>
+      <Link to="/sc-demo/">Visit the Styled Component Display Page!</Link>
+    </p>
   </Layout>
 )
 
